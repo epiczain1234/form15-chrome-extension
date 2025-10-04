@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Main Menu View -->
+    <div id="mainView" class="view active">
+      <div class="header">
+        <div class="logo">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <rect width="40" height="40" rx="8" fill="#081F3B"/>
+            <path d="M12 20L18 26L28 16" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h1 class="title">Tax Form Auto-Fill</h1>
+        <p class="subtitle">Sync Excel data with tax forms</p>
+      </div>
+
+      <div class="options">
+        <button class="option-btn" data-action="sync-excel">
+          <div class="option-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M21 16V8C21 6.895 20.105 6 19 6H5C3.895 6 3 6.895 3 8V16C3 17.105 3.895 18 5 18H19C20.105 18 21 17.105 21 16Z" stroke="currentColor" stroke-width="2"/>
+              <path d="M3 10H21M8 6V18" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </div>
+          <div class="option-text">
+            <div class="option-title">Sync from Excel</div>
+            <div class="option-desc">Connect Excel workbook data</div>
+          </div>
+        </button>
+
+        <button class="option-btn" data-action="import-tax">
+          <div class="option-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="currentColor" stroke-width="2"/>
+              <path d="M14 2V8H20M12 18V12M9 15L12 12L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="option-text">
+            <div class="option-title">Import Tax Form</div>
+            <div class="option-desc">Upload 1120, 1065, or other forms</div>
+          </div>
+        </button>
+
+        <button class="option-btn" data-action="import-sheet">
+          <div class="option-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M3 3H21V21H3V3Z" stroke="currentColor" stroke-width="2"/>
+              <path d="M3 9H21M3 15H21M9 3V21M15 3V21" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </div>
+          <div class="option-text">
+            <div class="option-title">Import Sheet Data</div>
+            <div class="option-desc">Import from CSV or Excel sheet</div>
+          </div>
+        </button>
+
+        <button class="option-btn scan-btn" data-action="scan-forms">
+          <div class="option-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="option-text">
+            <div class="option-title">Scan Current Page</div>
+            <div class="option-desc">Detect form fields on this page</div>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <!-- Loading View -->
+    <div id="loadingView" class="view">
+      <div class="loading-container">
+        <div class="spinner"></div>
+        <p class="loading-text">Loading...</p>
+        <p class="loading-subtext">Please wait</p>
+      </div>
+    </div>
+
+    <!-- Results View -->
+    <div id="resultsView" class="view">
+      <div class="results-header">
+        <button class="back-btn" id="backBtn">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <h2 class="results-title">Form Detected</h2>
+      </div>
+
+      <div class="results-content">
+        <div class="success-icon">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <circle cx="24" cy="24" r="24" fill="#E8F4F8"/>
+            <path d="M16 24L21 29L32 18" stroke="#081F3B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <p class="results-message" id="resultsMessage">Captured 0 form fields</p>
+        <p class="results-website" id="resultsWebsite">from Unknown Site</p>
+
+        <button class="sync-btn" id="syncBtn">
+          Sync with <span id="websiteName">Site</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "Form15-Tax-Filer",
+  "version": "1.0",
+  "description": "Automatically fill tax forms with Excel data",
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}
