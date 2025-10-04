@@ -102,6 +102,69 @@ function getXPath(element) {
   }
 }
 
+// Function to add item to active data list
+function addToActiveDataList(fileName, fileType) {
+  const activeDataList = document.getElementById('activeDataList');
+
+  // Add title if this is the first item
+  if (!activeDataList.querySelector('.data-list-title')) {
+    const title = document.createElement('div');
+    title.className = 'data-list-title';
+    title.textContent = 'Active Data Sources';
+    activeDataList.appendChild(title);
+    activeDataList.classList.add('has-items');
+  }
+
+  // Check if item already exists
+  const existingItem = Array.from(activeDataList.querySelectorAll('.data-item-name'))
+    .find(el => el.textContent === fileName);
+  if (existingItem) return;
+
+  // Create the data item
+  const dataItem = document.createElement('div');
+  dataItem.className = 'data-item';
+
+  // Icon based on file type
+  const icon = fileType === 'excel'
+    ? `<svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <path d="M21 16V8C21 6.895 20.105 6 19 6H5C3.895 6 3 6.895 3 8V16C3 17.105 3.895 18 5 18H19C20.105 18 21 17.105 21 16Z" stroke="currentColor" stroke-width="2"/>
+        <path d="M3 10H21M8 6V18" stroke="currentColor" stroke-width="2"/>
+      </svg>`
+    : `<svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="currentColor" stroke-width="2"/>
+        <path d="M14 2V8H20" stroke="currentColor" stroke-width="2"/>
+      </svg>`;
+
+  dataItem.innerHTML = `
+    <div class="data-item-icon ${fileType}">${icon}</div>
+    <div class="data-item-text">
+      <div class="data-item-name">${fileName}</div>
+      <div class="data-item-type">${fileType === 'excel' ? 'Excel Workbook' : 'Tax Form PDF'}</div>
+    </div>
+    <button class="data-item-delete" aria-label="Remove ${fileName}">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+        <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  `;
+
+  // Add delete functionality
+  const deleteBtn = dataItem.querySelector('.data-item-delete');
+  deleteBtn.addEventListener('click', () => {
+    dataItem.remove();
+
+    // Remove title and border if no items left
+    const remainingItems = activeDataList.querySelectorAll('.data-item');
+    if (remainingItems.length === 0) {
+      const title = activeDataList.querySelector('.data-list-title');
+      if (title) title.remove();
+      activeDataList.classList.remove('has-items');
+    }
+  });
+
+  activeDataList.appendChild(dataItem);
+}
+
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
   const views = [document.getElementById('mainView'), document.getElementById('loadingView'), document.getElementById('resultsView'), document.getElementById('sourceView')];
@@ -328,6 +391,7 @@ document.addEventListener('DOMContentLoaded', () => {
       } else if (action === 'import-excel') {
         // Excel import
         setTimeout(() => {
+          addToActiveDataList('1120ExcelData_Acme.xlsx', 'excel');
           document.getElementById('resultsTitle').textContent = 'Success';
           document.getElementById('resultsMessage').textContent = 'Data successfully imported';
           document.getElementById('resultsWebsite').textContent = 'from 1120ExcelData_Acme.xlsx';
@@ -336,6 +400,7 @@ document.addEventListener('DOMContentLoaded', () => {
       } else if (action === 'import-tax-form') {
         // Tax form import
         setTimeout(() => {
+          addToActiveDataList('1120TaxFormAcme.pdf', 'pdf');
           document.getElementById('resultsTitle').textContent = 'Success';
           document.getElementById('resultsMessage').textContent = 'Data successfully imported';
           document.getElementById('resultsWebsite').textContent = 'from 1120TaxFormAcme.pdf';

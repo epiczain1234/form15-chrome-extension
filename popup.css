@@ -75,6 +75,88 @@ body {
   color: #8A96A8;
 }
 
+/* Active Data List */
+.active-data-list {
+  padding: 0 16px;
+  margin-top: 16px;
+}
+
+.active-data-list.has-items {
+  padding-bottom: 12px;
+  border-bottom: 1px solid #D0D5DD;
+}
+
+.data-list-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #8A96A8;
+  margin-bottom: 10px;
+}
+
+.data-item {
+  background: #F6F8FA;
+  border: 1px solid #D0D5DD;
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.data-item-icon {
+  flex-shrink: 0;
+}
+
+.data-item-icon.excel {
+  color: #10B981;
+}
+
+.data-item-icon.pdf {
+  color: #EF4444;
+}
+
+.data-item-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.data-item-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #081F3B;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.data-item-type {
+  font-size: 0.7rem;
+  color: #8A96A8;
+  margin-top: 2px;
+}
+
+.data-item-delete {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: #8A96A8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.data-item-delete:hover {
+  background: #FEE2E2;
+  color: #EF4444;
+}
+
 /* Options */
 .options {
   padding: 16px;
@@ -281,13 +363,13 @@ body {
 }
 
 /* Source View */
-#sourceView {
+#sourceView.active {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
-.iframe-container {
+#sourceView .iframe-container {
   flex: 1;
   width: 100%;
   min-height: calc(400vh - 60px);
@@ -295,7 +377,7 @@ body {
   display: flex;
 }
 
-.iframe-container iframe {
+#sourceView .iframe-container iframe {
   width: 100%;
   min-height: 400vh;
   border: none;
