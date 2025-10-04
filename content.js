@@ -150,9 +150,9 @@ function addViewSourceButton(field) {
   // Style the button
   viewSourceBtn.style.cssText = `
     padding: 8px 12px;
-    background-color: #1e40af;
+    background-color: #081F3B;
     color: white;
-    border: 1px solid #1e40af;
+    border: 1px solid #081F3B;
     border-radius: 4px;
     font-size: 13px;
     font-weight: 500;
@@ -164,17 +164,20 @@ function addViewSourceButton(field) {
 
   // Add hover effect
   viewSourceBtn.addEventListener('mouseenter', () => {
-    viewSourceBtn.style.backgroundColor = '#1e3a8a';
+    viewSourceBtn.style.backgroundColor = '#132B4F';
   });
   viewSourceBtn.addEventListener('mouseleave', () => {
-    viewSourceBtn.style.backgroundColor = '#1e40af';
+    viewSourceBtn.style.backgroundColor = '#081F3B';
   });
 
-  // Add click handler to navigate to Google
+  // Add click handler to send message to side panel
   viewSourceBtn.addEventListener('click', (e) => {
     e.preventDefault();
     e.stopPropagation();
-    window.open('https://google.com', '_blank');
+    chrome.runtime.sendMessage({
+      action: 'viewSource',
+      url: 'https://google.com'
+    });
   });
 
   // Insert the button after the field

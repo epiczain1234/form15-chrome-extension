@@ -91,6 +91,26 @@
         </button>
       </div>
     </div>
+
+    <!-- Source View -->
+    <div id="sourceView" class="view">
+      <div class="results-header">
+        <button class="back-btn" id="sourceBackBtn">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <h2 class="results-title">Source Document</h2>
+      </div>
+
+      <div class="iframe-container">
+        <iframe
+          id="sourceIframe"
+          allow="camera; clipboard-write; fullscreen; microphone; geolocation"
+          sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"
+        ></iframe>
+      </div>
+    </div>
   </div>
 
   <script src="popup.js"></script>

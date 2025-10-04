@@ -230,6 +230,8 @@ body {
 
 .success-icon {
   margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
 }
 
 .success-icon img {
@@ -276,4 +278,26 @@ body {
 
 #websiteName {
   font-weight: 700;
+}
+
+/* Source View */
+#sourceView {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.iframe-container {
+  flex: 1;
+  width: 100%;
+  min-height: calc(400vh - 60px);
+  overflow: auto;
+  display: flex;
+}
+
+.iframe-container iframe {
+  width: 100%;
+  min-height: 400vh;
+  border: none;
+  flex: 1;
 }

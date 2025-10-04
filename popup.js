@@ -104,11 +104,44 @@ function getXPath(element) {
 
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-  const views = [document.getElementById('mainView'), document.getElementById('loadingView'), document.getElementById('resultsView')];
-  const [mainView, loadingView, resultsView] = views;
+  const views = [document.getElementById('mainView'), document.getElementById('loadingView'), document.getElementById('resultsView'), document.getElementById('sourceView')];
+  const [mainView, loadingView, resultsView, sourceView] = views;
   const optionButtons = document.querySelectorAll('.option-btn');
   const backBtn = document.getElementById('backBtn');
   const doneBtn = document.getElementById('doneBtn');
+  const sourceBackBtn = document.getElementById('sourceBackBtn');
+  const sourceIframe = document.getElementById('sourceIframe');
+
+  // Function to enable iframe loading by removing security headers
+  async function enableIframeLoading(url) {
+    await chrome.declarativeNetRequest.updateSessionRules({
+      removeRuleIds: [1],
+      addRules: [{
+        id: 1,
+        priority: 1,
+        action: {
+          type: "modifyHeaders",
+          responseHeaders: [
+            {header: "x-frame-options", operation: "remove"},
+            {header: "content-security-policy", operation: "remove"}
+          ]
+        },
+        condition: {
+          urlFilter: "*",
+          resourceTypes: ["main_frame", "sub_frame", "xmlhttprequest", "websocket"]
+        }
+      }]
+    });
+  }
+
+  // Listen for messages from content script
+  chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
+    if (request.action === 'viewSource') {
+      await enableIframeLoading(request.url);
+      sourceIframe.src = request.url;
+      switchView(sourceView, views);
+    }
+  });
 
   // Handle option button clicks
   optionButtons.forEach(button => {
@@ -268,11 +301,18 @@ document.addEventListener('DOMContentLoaded', () => {
             }
           });
 
+          // Update loading message
+          loadingText.textContent = 'Filling form fields...';
+          loadingSubtext.textContent = 'Applying data to form';
+
           // Fill the form
           await chrome.tabs.sendMessage(tab.id, {
             action: 'fillFormFields',
             data: { mappings }
           });
+
+          // Wait a moment to show the loading state
+          await new Promise(resolve => setTimeout(resolve, 800));
 
           // Show success
           document.getElementById('resultsTitle').textContent = 'Success';
@@ -308,6 +348,8 @@ document.addEventListener('DOMContentLoaded', () => {
   backBtn.addEventListener('click', () => switchView(mainView, views));
 
   doneBtn.addEventListener('click', () => switchView(mainView, views));
+
+  sourceBackBtn.addEventListener('click', () => switchView(mainView, views));
 }); // End of DOMContentLoaded
 
 /* OLD SYNC CODE - REMOVED
