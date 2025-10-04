@@ -121,8 +121,71 @@ function fillFormFields(data) {
       setTimeout(() => {
         field.style.backgroundColor = '';
       }, 1500);
+
+      // Add "View Source" button next to the filled field
+      addViewSourceButton(field);
     }
   });
+}
+
+// Function to add "View Source" button next to a field
+function addViewSourceButton(field) {
+  // Only add button if field has a value
+  if (!field.value || field.value.trim() === '') {
+    return;
+  }
+
+  // Check if button already exists
+  const existingButton = field.parentElement.querySelector('.tax-extension-view-source-btn');
+  if (existingButton) {
+    return; // Button already exists
+  }
+
+  // Create the View Source button
+  const viewSourceBtn = document.createElement('button');
+  viewSourceBtn.textContent = 'View Source';
+  viewSourceBtn.className = 'tax-extension-view-source-btn';
+  viewSourceBtn.type = 'button';
+
+  // Style the button
+  viewSourceBtn.style.cssText = `
+    padding: 8px 12px;
+    background-color: #1e40af;
+    color: white;
+    border: 1px solid #1e40af;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-left: 8px;
+    white-space: nowrap;
+    transition: background-color 0.2s;
+  `;
+
+  // Add hover effect
+  viewSourceBtn.addEventListener('mouseenter', () => {
+    viewSourceBtn.style.backgroundColor = '#1e3a8a';
+  });
+  viewSourceBtn.addEventListener('mouseleave', () => {
+    viewSourceBtn.style.backgroundColor = '#1e40af';
+  });
+
+  // Add click handler to navigate to Google
+  viewSourceBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    window.open('https://google.com', '_blank');
+  });
+
+  // Insert the button after the field
+  // Check if field is in a wrapper div (like field-input-group)
+  const parent = field.parentElement;
+  if (parent && parent.classList.contains('field-input-group')) {
+    parent.appendChild(viewSourceBtn);
+  } else {
+    // Insert after the field directly
+    field.parentNode.insertBefore(viewSourceBtn, field.nextSibling);
+  }
 }
 
 // Helper function to get XPath of an element

@@ -6,24 +6,32 @@
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  width: 380px;
+  min-width: 300px;
+  width: 100%;
+  min-height: 100vh;
   background: #F5F7FA;
   color: #081F3B;
+  margin: 0;
+  padding: 0;
 }
 
 .container {
   position: relative;
-  overflow: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 /* View Management */
 .view {
   display: none;
   animation: fadeIn 0.3s ease-in-out;
+  flex: 1;
 }
 
 .view.active {
-  display: block;
+  display: flex;
+  flex-direction: column;
 }
 
 @keyframes fadeIn {
@@ -50,6 +58,11 @@ body {
   margin-bottom: 12px;
 }
 
+.logo img {
+  display: block;
+  border-radius: 8px;
+}
+
 .title {
   font-size: 1.2rem;
   font-weight: 600;
@@ -68,6 +81,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  flex: 1;
 }
 
 .option-btn {
@@ -218,6 +232,11 @@ body {
   margin-bottom: 20px;
 }
 
+.success-icon img {
+  display: block;
+  border-radius: 8px;
+}
+
 .results-message {
   font-size: 1.1rem;
   font-weight: 600;
@@ -231,7 +250,7 @@ body {
   margin-bottom: 24px;
 }
 
-.sync-btn {
+.done-btn {
   background: #081F3B;
   color: white;
   border: none;
@@ -245,13 +264,13 @@ body {
   max-width: 280px;
 }
 
-.sync-btn:hover {
+.done-btn:hover {
   background: #132B4F;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(8, 31, 59, 0.2);
 }
 
-.sync-btn:active {
+.done-btn:active {
   transform: translateY(0);
 }
 
