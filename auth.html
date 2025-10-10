@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="auth.css">
+</head>
+<body>
+  <div class="auth-container">
+    <div class="auth-card">
+      <div class="auth-header">
+        <img src="icon-128.png" alt="Tax Form Auto-Fill" width="48" height="48">
+        <h1 class="auth-title">Tax Form Auto-Fill</h1>
+        <p class="auth-subtitle">Sign in to access your data</p>
+      </div>
+
+      <div class="auth-tabs">
+        <button type="button" class="auth-tab active" id="signinTab">Sign In</button>
+        <button type="button" class="auth-tab" id="signupTab">Sign Up</button>
+      </div>
+
+      <form id="authForm" class="auth-form">
+        <div id="errorMessage" class="auth-error" style="display: none;"></div>
+
+        <div class="form-group">
+          <label for="email" class="form-label">Email</label>
+          <input
+            id="email"
+            type="email"
+            class="form-input"
+            placeholder="you@example.com"
+            required
+            autocomplete="email"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="password" class="form-label">Password</label>
+          <input
+            id="password"
+            type="password"
+            class="form-input"
+            placeholder="••••••••"
+            required
+            autocomplete="current-password"
+          />
+        </div>
+
+        <div class="form-group" id="confirmPasswordGroup" style="display: none;">
+          <label for="confirmPassword" class="form-label">Confirm Password</label>
+          <input
+            id="confirmPassword"
+            type="password"
+            class="form-input"
+            placeholder="••••••••"
+            autocomplete="new-password"
+          />
+        </div>
+
+        <button type="submit" class="auth-submit-btn" id="submitBtn">
+          Sign In
+        </button>
+
+        <div class="loading-indicator" id="loadingIndicator" style="display: none;">
+          <div class="spinner"></div>
+          <p>Please wait...</p>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Firebase SDK from CDN -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
+  <!-- Firebase Config -->
+  <script>
+    // Initialize Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyCP541ax1bECwsauEVgChzmz2iCIWvrPjI",
+      authDomain: "verify-ai-dev.firebaseapp.com",
+      projectId: "verify-ai-dev",
+      storageBucket: "verify-ai-dev.firebasestorage.app",
+      messagingSenderId: "594154854837",
+      appId: "1:594154854837:web:ec81de48c483e1b375a1fc",
+      measurementId: "G-YTP0NQXVP2"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    window.auth = firebase.auth();
+    console.log('Firebase initialized');
+  </script>
+
+  <!-- Auth Logic -->
+  <script src="auth.js"></script>
+</body>
+</html>

@@ -165,8 +165,32 @@ function addToActiveDataList(fileName, fileType) {
   activeDataList.appendChild(dataItem);
 }
 
+// Check authentication on load
+async function checkAuth() {
+  const data = await chrome.storage.local.get('authUser');
+
+  if (!data.authUser || !data.authUser.token) {
+    // Not authenticated, redirect to auth page
+    window.location.href = 'auth.html';
+    return false;
+  }
+
+  // Check if token is older than 1 hour (refresh token if needed)
+  const tokenAge = Date.now() - (data.authUser.timestamp || 0);
+  if (tokenAge > 3600000) { // 1 hour
+    console.log('Token expired, redirecting to auth...');
+    window.location.href = 'auth.html';
+    return false;
+  }
+
+  return true;
+}
+
 // Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  // Check auth first
+  const isAuthenticated = await checkAuth();
+  if (!isAuthenticated) return;
   const views = [document.getElementById('mainView'), document.getElementById('loadingView'), document.getElementById('resultsView'), document.getElementById('sourceView')];
   const [mainView, loadingView, resultsView, sourceView] = views;
   const optionButtons = document.querySelectorAll('.option-btn');
@@ -415,6 +439,16 @@ document.addEventListener('DOMContentLoaded', () => {
   doneBtn.addEventListener('click', () => switchView(mainView, views));
 
   sourceBackBtn.addEventListener('click', () => switchView(mainView, views));
+
+  // Logout button handler
+  const logoutBtn = document.getElementById('logoutBtn');
+  logoutBtn.addEventListener('click', async () => {
+    // Clear auth data from storage
+    await chrome.storage.local.remove('authUser');
+
+    // Redirect to auth page
+    window.location.href = 'auth.html';
+  });
 }); // End of DOMContentLoaded
 
 /* OLD SYNC CODE - REMOVED
